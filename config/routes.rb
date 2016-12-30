@@ -53,7 +53,11 @@ Rails.application.routes.draw do
   get :admin, to: redirect("/admin/articles"), as: "admin"
   namespace :admin do
     resources :users
-    resources :articles
+    resources :articles do
+      member do
+        get "new", as: :new_child
+      end
+    end
     resources :pages
     resources :podcasts
     resources :episodes

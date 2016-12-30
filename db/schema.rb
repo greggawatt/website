@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161221015941) do
+ActiveRecord::Schema.define(version: 20161230031529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,8 @@ ActiveRecord::Schema.define(version: 20161221015941) do
     t.boolean  "hide_layout",             default: false
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
+    t.integer  "parent_id"
+    t.index ["parent_id"], name: "index_articles_on_parent_id", using: :btree
     t.index ["status_id"], name: "index_articles_on_status_id", using: :btree
     t.index ["theme_id"], name: "index_articles_on_theme_id", using: :btree
     t.index ["user_id"], name: "index_articles_on_user_id", using: :btree

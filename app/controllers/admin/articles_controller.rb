@@ -14,11 +14,13 @@ class Admin::ArticlesController < Admin::AdminController
 
   # /admin/articles/new
   def new
+    @collection = Article.find(params[:id]) if params[:id]
     @article = Article.new
   end
 
   # /admin/articles/1/edit
   def edit
+    @collection = Article.find(@article.parent_id) if @article.parent_id
   end
 
   # /admin/articles
@@ -64,6 +66,7 @@ class Admin::ArticlesController < Admin::AdminController
                                     :slug, :draft_code, :status_id, :summary,
                                     :published_at, :tags, :categories,
                                     :image, :image_description, :css, :hide_layout,
-                                    :header_background_color, :header_text_color)
+                                    :header_background_color, :header_text_color,
+                                    :parent_id)
   end
 end
