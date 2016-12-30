@@ -17,6 +17,8 @@ class Article < ApplicationRecord
 
   scope :live,        -> { where("published_at < ?", Time.now) }
 
+  scope :chronological, -> { order(published_at: :desc) }
+
   before_validation :generate_slug,            on: [:create, :update]
   before_validation :generate_published_dates, on: [:create, :update]
   before_validation :generate_draft_code,      on: [:create, :update]

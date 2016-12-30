@@ -44,6 +44,8 @@ class ArticlesController < ApplicationController
 
     @title = @article.name
 
+    @child_articles = @article.articles.published.live.chronological
+
     if @article.hide_layout?
       render html: @article.content.html_safe, layout: false
     else
