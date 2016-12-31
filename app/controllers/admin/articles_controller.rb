@@ -5,7 +5,7 @@ class Admin::ArticlesController < Admin::AdminController
 
   # /admin/articles
   def index
-    @articles = Article.root.includes(:articles)
+    @articles = Article.root.includes(:collection_posts)
   end
 
   # /admin/articles/1
@@ -21,7 +21,7 @@ class Admin::ArticlesController < Admin::AdminController
 
   # /admin/articles/1/edit
   def edit
-    @collection = Article.find(@article.parent_id) if @article.parent_id
+    @collection = Article.find(@article.collection_id) if @article.in_collection?
   end
 
   # /admin/articles
@@ -68,6 +68,6 @@ class Admin::ArticlesController < Admin::AdminController
                                     :published_at, :tags, :categories,
                                     :image, :image_description, :css, :hide_layout,
                                     :header_background_color, :header_text_color,
-                                    :parent_id)
+                                    :collection_id)
   end
 end

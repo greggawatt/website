@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     resources :users
     resources :articles do
       member do
-        get "new", as: :new_child
+        get "new", as: :new_collection_post
       end
     end
     resources :pages

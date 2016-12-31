@@ -7,8 +7,8 @@ class Article < ApplicationRecord
   has_many :tags, through: :taggings
   has_many :categorizations, dependent: :destroy
   has_many :categories, through: :categorizations
-  has_many :articles, foreign_key: :parent_id
-  belongs_to :collection, foreign_key: :parent_id, class_name: :Article
+  has_many :collection_posts, foreign_key: :collection_id, class_name: :Article
+  belongs_to :collection, foreign_key: :collection_id, class_name: :Article
 
   scope :draft,       -> { where(status: Status.find_by(name: "draft")) }
   scope :edited,      -> { where(status: Status.find_by(name: "edited")) }
@@ -19,7 +19,7 @@ class Article < ApplicationRecord
 
   scope :chronological, -> { order(published_at: :desc) }
 
-  scope :root, -> { where(parent_id: nil) }
+  scope :root, -> { where(collection_id: nil) }
 
   before_validation :generate_slug,            on: [:create, :update]
   before_validation :generate_published_dates, on: [:create, :update]
@@ -92,7 +92,7 @@ class Article < ApplicationRecord
   end
 
   def collection_root?
-    articles.any?
+    collection_posts.any?
   end
 
   def in_collection?
