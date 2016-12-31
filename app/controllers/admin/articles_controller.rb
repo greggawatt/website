@@ -5,7 +5,7 @@ class Admin::ArticlesController < Admin::AdminController
 
   # /admin/articles
   def index
-    @articles = Article.all
+    @articles = Article.root.includes(:articles)
   end
 
   # /admin/articles/1

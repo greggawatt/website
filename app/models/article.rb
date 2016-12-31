@@ -19,6 +19,8 @@ class Article < ApplicationRecord
 
   scope :chronological, -> { order(published_at: :desc) }
 
+  scope :root, -> { where(parent_id: nil) }
+
   before_validation :generate_slug,            on: [:create, :update]
   before_validation :generate_published_dates, on: [:create, :update]
   before_validation :generate_draft_code,      on: [:create, :update]
