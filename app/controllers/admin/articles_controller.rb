@@ -10,6 +10,7 @@ class Admin::ArticlesController < Admin::AdminController
 
   # /admin/articles/1
   def show
+    @collection = @article.collection
   end
 
   # /admin/articles/new
