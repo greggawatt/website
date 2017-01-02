@@ -16,6 +16,7 @@ class Article < ApplicationRecord
   scope :published,   -> { where(status: Status.find_by(name: "published")) }
 
   scope :live,        -> { where("published_at < ?", Time.now) }
+  scope :recent,      -> { where("published_at BETWEEN ? AND ?", Time.now - 2.days, Time.now) }
 
   scope :chronological, -> { order(published_at: :desc) }
 
