@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # Articles Atom Feed
   get "feed", to: "articles#index", defaults: { format: "atom" }, as: :feed
 
+  # Articles - Collection Items
+  get "articles/:id/collection_posts", to: "collection_posts#index"
+
   # Pages (linked in header/nav)
   get "read",   to: "about#read",   as: :read
   get "watch",  to: "about#watch",  as: :watch
