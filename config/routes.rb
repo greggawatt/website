@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       constraints: { year: /\d{4}/, month: /\d{2}/, day: /\d{2}/ },
       as:          :archives
 
+  get "archives", to: redirect("/read"), as: :archives_redirect
+
   # Draft Articles and Pages
   get "drafts/articles/:draft_code", to: "articles#show", as: :article_draft
   get "drafts/pages/:draft_code",    to: "pages#show",    as: :page_draft
@@ -31,8 +33,9 @@ Rails.application.routes.draw do
   get "watch",  to: "about#watch",  as: :watch
   get "listen", to: redirect("podcast"), as: :listen_redirect # TEMP TODO
   # get "listen", to: "about#listen", as: :listen
-  get "buy",    to: redirect("http://store.crimethinc.com"), as: :buy_redirect # TEMP TODO
+  get "get",    to: redirect("http://store.crimethinc.com"), as: :get_redirect # TEMP TODO
   # get "buy",    to: "about#buy",    as: :buy
+
 
   # Podcast
   get "podcast/feed", to: redirect("http://exworker.libsyn.com/rss"), as: :podcast_feed_redirect # TEMP TODO
@@ -41,6 +44,9 @@ Rails.application.routes.draw do
   get "podcast/:id",  to: "podcast#show",   as: :episode
   get "podcast/:id/transcript",  to: "podcast#transcript", as: :episode_transcript
 
+
+  # Site search
+  get "search", to: "search#index"
 
 
   # Email newsletter signup, used on homepage
@@ -64,6 +70,7 @@ Rails.application.routes.draw do
     resources :settings
     resources :subscribers
     resources :themes
+    resources :videos
   end
 
 

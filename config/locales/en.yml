@@ -1,14 +1,19 @@
 en:
   language_direction: ltr
   site_name: CrimethInc.
+  site_author: CrimethInc. Ex-Workers Collective
+
+  head:
+    meta_title: "CrimethInc. ex-Workers' Collective: Your ticket to a world free of charge"
+    meta_image_url: http://thecloud.crimethinc.com/assets/share/crimethinc-site-share.png
+    meta_description: CrimethInc. is a decentralized network pledged to anonymous collective action. We strive to reinvent our lives and our world according to the principles of self-determination and mutual aid.
 
   header:
     read: Read
     watch: Watch
     listen: Listen
-    buy: Obtain
+    buy: Get
     share: Share
-
     first_time: First Time? Start Here →
     search_form_placeholder: Search Archives…
 
@@ -70,9 +75,10 @@ en:
         heading: Email Updates
         description: Sign up here to receive regular email updates.
         signup_form_placeholder: What’s your email address?
+        signup_button_text: Sign Up
       social:
-        heading: Find CrimethInc. Elsewhere
-        description: CrimethInc. is lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        heading: Find Us Elsewhere
+        description: "Keep up with our activities on the following additional platforms:"
 
     mantra:
       - If your heart is free, the ground you stand on is liberated territory. Defend it.

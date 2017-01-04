@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_action :set_new_subscriber
   before_action :set_pinned_pages
 
+  helper :meta
+
   def set_pinned_pages
     # pinned article
     pinned_to_site_top_page_id      = setting(:pinned_to_site_top_page_id)
@@ -75,8 +77,33 @@ class ApplicationController < ActionController::Base
   def check_for_redirection
     redirect = Redirect.where(source_path: request.path).last
 
+    if redirect.blank?
+      redirect = Redirect.where(source_path: "#{request.path}/").last
+    end
+
     if redirect.present?
       return redirect_to redirect.target_path, status: redirect.temporary? ? 302 : 301
     end
   end
+
+  def render_markdown(text)
+    Kramdown::Document.new(
+      text,
+      input: :kramdown,
+      remove_block_html_tags: false,
+      transliterated_header_ids: true
+    ).to_html.html_safe
+  end
+  helper_method :render_markdown
+
+  def render_content(post)
+    Kramdown::Document.new(
+      post.content,
+      input: post.content_format == "html" ? :html : :kramdown,
+      remove_block_html_tags: false,
+      transliterated_header_ids: true,
+      html_to_native: true
+    ).to_html.html_safe
+  end
+  helper_method :render_content
 end

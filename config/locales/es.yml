@@ -1,6 +1,12 @@
 es:
   language_direction: ltr
   site_name: CrimethInc.
+  site_author: CrimethInc. Ex-Workers Collective
+
+  head:
+    meta_title: "CrimethInc. ex-Workers' Collective: Your ticket to a world free of charge"
+    meta_image_url: http://thecloud.crimethinc.com/assets/share/crimethinc-site-share.png
+    meta_description: CrimethInc. is a decentralized network pledged to anonymous collective action. We strive to reinvent our lives and our world according to the principles of self-determination and mutual aid.
 
   header:
     read: Read
@@ -8,7 +14,6 @@ es:
     listen: Listen
     buy: Get
     share: Share
-
     first_time: First Time? Start Here →
     search_form_placeholder: Search Archives…
 
@@ -59,9 +64,9 @@ es:
       first_time_link: Start here. →
       heading: About CrimethInc.
       description:
-        CrimethInc. is lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        "CrimethInc. is a rebel alliance—a decentralized network pledged to anonymous collective action—a breakout from the prisons of our age. We strive to reinvent our lives and our world according to the principles of self-determination and mutual aid.
 
-        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        We believe that you should be free to dispose of your limitless potential on your own terms: that no government, market, or ideology should be able to dictate what your life can be. If you agree, *let’s do something about it.*"
       more_link: More about CrimethInc. →
       donate_button_text: Support this site
 
@@ -70,9 +75,10 @@ es:
         heading: Email Updates
         description: Sign up here to receive regular email updates.
         signup_form_placeholder: What’s your email address?
+        signup_button_text: Sign Up
       social:
-        heading: Find CrimethInc. Elsewhere
-        description: CrimethInc. is lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        heading: Find Us Elsewhere
+        description: "Keep up with our activities on the following additional platforms:"
 
     mantra:
       - If your heart is free, the ground you stand on is liberated territory. Defend it.

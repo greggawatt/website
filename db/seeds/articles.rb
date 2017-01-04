@@ -84,7 +84,7 @@ Dir.glob("#{filepath}/*/").each do |f|
     article.slug = "feature-#{article.slug}"
     article.save!
 
-    # Add the Article to its Category and Theme
+    # Add the Article to its Category
     category.articles << article
 
     # Redirect from old site Feature URLs to new site Article URLs
@@ -121,7 +121,6 @@ Dir.glob("#{filepath}/*").each do |f|
     # Published At timestamps
     published_at = Time.parse(doc.css("wp_post_date_gmt").text) # GMT
     published_at = Time.parse(doc.css("wp_post_date").text)     # PST # Seems to map to URLs more accurately
-
 
     # Old permalinks to support by creating Redirects to the new Article path
     redirect_paths = []
@@ -179,7 +178,7 @@ Dir.glob("#{filepath}/*").each do |f|
       content_format: "html"
     )
 
-    # Add the Article to its Category and Theme
+    # Add the Article to its Category
     category = Category.find_or_create_by name: category_name
     category.articles << article
 
@@ -217,62 +216,50 @@ html_doc.css(".h-entry").each do |entry|
                             status_id:      status_id,
                             header_background_color: "#444")
 
-  # Add the Article to its Category and Theme
+  # Add the Article to its Category
   category.articles << article
 end
 
 
 
-
-
-
-
-
-
-
-
-
-
 # New feature style Articles
-theme = Theme.create!(name: "Launch")
-
 # Collect the articles together
 articles = [
   {
     url: "http://www.crimethinc.com/texts/r/demands/",
     category: "Features",
-    theme: theme,
     title: "Why We Don't Make Demands",
+    published_at: Time.parse("2016-12-31T10:00 -0800"),
     image: "http://thecloud.crimethinc.com/assets/features/demands/images/header2560.jpg",
   },
   {
     url: "http://www.crimethinc.com/texts/r/democracy/",
     category: "Features",
-    theme: theme,
     title: "From Democracy to Freedom",
+    published_at: Time.parse("2016-12-30T10:00 -0800"),
     image: "http://thecloud.crimethinc.com/assets/features/democracy/images/header2000.jpg",
   },
   {
     url: "http://www.crimethinc.com/texts/r/kurdish/",
     category: "Features",
-    theme: theme,
     title: "Understanding the Kurdish Resistance",
     subtitle: "Historical Overview & Eyewitness Report",
+    published_at: Time.parse("2016-12-29T10:00 -0800"),
     image: "http://thecloud.crimethinc.com/assets/features/kurdish/images/header2000.jpg",
   },
   {
     url: "http://www.crimethinc.com/texts/r/next-time-it-explodes/",
     category: "Features",
-    theme: theme,
     title: "Next Time It Explodes",
     subtitle: "Revolt, Repression, and Backlash since the Ferguson Uprising",
+    published_at: Time.parse("2016-12-28T10:00 -0800"),
     image: "http://thecloud.crimethinc.com/assets/features/next-time-it-explodes/images/header2000.jpg",
   },
   {
     url: "http://www.crimethinc.com/texts/r/battle/",
     category: "Features",
-    theme: theme,
     title: "Report Back from the Battle for Sacred Ground",
+    published_at: Time.parse("2016-12-27T10:00 -0800"),
     image: "http://thecloud.crimethinc.com/assets/features/battle/images/header2000.jpg",
   }
 ]
@@ -291,14 +278,11 @@ articles.each_with_index do |article_params, index|
   # And create a new Category
   category = Category.find_or_create_by! name: article_params.delete(:category)
 
-  # Delete Theme from params before creating Article
-  theme = article_params.delete(:theme)
-
   # Back date articles to the past 5 days for development
-  days_offset  = index + 1
-  published_at = Time.current - days_offset.days
+  # days_offset  = index + 1
+  # published_at = Time.current - days_offset.days
 
-  article_params[:published_at]   = published_at
+  # article_params[:published_at]   = published_at
   article_params[:status_id]      = published_status.id
   article_params[:content_format] = "html"
 
@@ -312,9 +296,93 @@ articles.each_with_index do |article_params, index|
   # Create Redirect
   Redirect.create source_path: article.path, target_path: feature.path, temporary: false
 
-  # Add the Article to its Category and Theme
+  # Add the Article to its Category
   category.articles << article
-  if theme.present?
-    theme.articles << article
+end
+
+
+
+
+# Texts as Articles
+
+# Find the "published" Status
+published_status = Status.find_by(name: "published")
+
+# Text collections
+inside_front               = %w(permanentvacation selling situationists veganism workethic)
+rolling_thunder            = %w(antinationalist demonstrating fineart greenscared insurrection irrepressible reallyreally rncdnc rncdncdocs rnclegal shac tenyear)
+harbinger                  = %w(adultery beyonddemocracy definition divided h4intro indulge infighting manifesto72 onedimensional practical secretworld ultimatum warning)
+days_of_war_nights_of_love = %w(alienation alive asfuck bourgeoisie concealment contents deadhand difference domestication forward invitation joinresistance nogods nomasters product reconsideringtv seduced shoplifting system taskforce69 unabomber washing)
+
+filepath = File.expand_path("../db/seeds/articles/texts/texts/", __FILE__)
+
+Dir.glob("#{filepath}/*").each do |f|
+  path_pieces = f.strip.split("/")
+  filename    = path_pieces.last
+
+  unless filename =~ /.DS_Store/
+    doc   = File.open(f) { |f| Nokogiri::HTML(f) }
+
+    # Create the Category for Text
+    filename_slug = filename.gsub(".php", "")
+
+    # Set the right published_at date
+    published_at_date = nil
+    if %w(workethic selling situationists permanentvacation).include?(filename_slug)
+      published_at_date = "January 1, 1996"
+    elsif %w(practical).include?(filename_slug)
+      published_at_date = "May 1, 1997"
+    elsif %w(secretworld warning veganism adultery beyonddemocracy manifesto72 divided onedimensional ultimatum).include?(filename_slug)
+      published_at_date = "September 11, 2000"
+    elsif %w(h4intro indulge definition infighting).include?(filename_slug)
+      published_at_date = "November 1, 2001"
+    elsif %w(alienation alive asfuck bourgeoisie concealment contents deadhand difference domestication forward invitation joinresistance nogods nomasters product reconsideringtv seduced shoplifting system taskforce69 unabomber washing).include?(filename_slug)
+      published_at_date = "September 11, 2000"
+    else
+      published_at_date = "September 11, 1900"
+    end
+    published_at = Time.parse(published_at_date)
+
+    # Set the right Category
+    if inside_front.include?(filename_slug)
+      category_name = "Inside Front"
+    elsif rolling_thunder.include?(filename_slug)
+      category_name = "Rolling Thunder"
+    elsif harbinger.include?(filename_slug)
+      category_name = "Harbinger"
+    elsif days_of_war_nights_of_love.include?(filename_slug)
+      category_name = "Days of War, Nights of Love"
+    else
+      category_name = "Texts"
+    end
+    category = Category.find_or_create_by name: category_name
+
+
+    title                   = doc.css("h1").first.try(:text)
+    subtitle                = nil
+    content                 = File.read(f)
+    image                   = nil
+    header_background_color = "#444444"
+
+    # Save the Article
+    article = Article.create!(
+      title:          title || filename_slug,
+      subtitle:       subtitle,
+      content:        content,
+      published_at:   published_at,
+      image:          image,
+      status_id:      published_status.id,
+      content_format: "html",
+      hide_layout:    false,
+      header_background_color: header_background_color
+    )
+
+    # Add the Article to its Category
+    category.articles << article
+
+    # TODO
+    # ["/texts/#{namespace}/#{slug}", "/texts/#{namespace}/#{slug}/", "/texts/#{namespace}/#{slug}/.index.html"].each do |source_path|
+    #   Redirect.create! source_path: source_path, target_path: article.path, temporary: false
+    # end
   end
 end
